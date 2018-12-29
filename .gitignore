@@ -1,4 +1,7 @@
 .idea/
+examples/*.json
+
+# Cargo output
 /target
 **/*.rs.bk
 Cargo.lock
