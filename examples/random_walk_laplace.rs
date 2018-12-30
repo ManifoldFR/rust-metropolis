@@ -6,7 +6,7 @@ fn main() {
     let q = RandomWalk::new();
     let p = |x: f64| {
         (-x.abs()).exp()
-    }; // uniform probability
+    }; // Laplace distribution
 
     let mhe = MHSampler::new(p, q);
     let ref mut rng = rand::thread_rng();

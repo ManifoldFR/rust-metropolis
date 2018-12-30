@@ -4,7 +4,8 @@ use rand::Rng;
 use std::f64::consts::PI;
 use super::{ConditionalDistribution, ConditionalPDF};
 
-pub struct RandomWalk(Normal); // normal distribution
+/// Random walk Markov transition kernel.
+pub struct RandomWalk(Normal);
 
 impl RandomWalk {
     /// Initialize the random walk kernel with the standard normal distribution.
@@ -21,6 +22,7 @@ impl ConditionalPDF for RandomWalk {
 
 impl ConditionalDistribution for RandomWalk {
     fn csample<R:Rng+?Sized>(&self, rng: &mut R, y: f64) -> f64 {
+        // property of the normal distribution provides easy method to sample
         y + self.0.sample(rng)
     }
 }

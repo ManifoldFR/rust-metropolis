@@ -4,6 +4,7 @@ use rand::Rng;
 
 pub mod random_walk;
 
+/// Metropolis-Hastings sampler.
 pub struct MHSampler<F, G>
 where
     F: Fn(f64) -> f64,
@@ -13,6 +14,8 @@ where
     kernel: G
 }
 
+/// Any `structs` that should be used as Markov transition kernels by the M-H algorithm
+/// should implement this trait.
 pub trait ConditionalDistribution {
     /// Draw a sample conditionally to the previous state `y`.
     fn csample<R:Rng+?Sized>(&self, rng: &mut R, y: f64) -> f64;
@@ -21,7 +24,6 @@ pub trait ConditionalDistribution {
 pub trait ConditionalPDF {
     fn cpdf(&self, x: f64, y: f64) -> f64;
 }
-
 
 
 impl<F, G> MHSampler<F, G> where
@@ -39,7 +41,7 @@ impl<F, G> MHSampler<F, G> where
     /// Sample `n` samples of the distribution you want, starting from
     /// value `x0`.
     pub fn sample<R: Rng+?Sized>(&self, rng: &mut R, n: usize, x0: f64) -> Vec<f64> {
-        let mut res = Vec::with_capacity(n);
+        let mut res = Vec::with_capacity(n); // capacity O(n)
         res.push(x0);
         let mut candidate: f64;
         let mut acceptance: f64; // acceptance
@@ -49,8 +51,8 @@ impl<F, G> MHSampler<F, G> where
 
         for t in 1..n {
             candidate = kernel.csample(rng, y);
-            acceptance = p(candidate)/p(y);
-            acceptance *= kernel.cpdf(y, candidate)/kernel.cpdf(candidate, y);
+            acceptance = p(candidate)* kernel.cpdf(y, candidate) /
+                (p(y)*kernel.cpdf(candidate, y));
             acceptance = acceptance.min(1.);
             let u: f64 = rng.gen();
             if u <= acceptance {
