@@ -2,6 +2,7 @@
 use rand;
 use rand::Rng;
 
+pub mod ffi;
 pub mod random_walk;
 
 /// Metropolis-Hastings sampler.

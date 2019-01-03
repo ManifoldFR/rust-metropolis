@@ -26,16 +26,3 @@ impl ConditionalDistribution for RandomWalk {
         y + self.0.sample(rng)
     }
 }
-
-#[no_mangle]
-pub extern fn sample_mh_randomwalk(n_samples: u32) -> *const Vec<f64> {
-    let q = RandomWalk::new();
-    let p = |x: f64| {
-        (-x.abs()).exp()
-    }; // Laplace distribution
-    let x0= 0.5;
-    let mhe = super::MHSampler::new(p, q);
-    let ref mut rng = rand::thread_rng();
-    let samples = mhe.sample(rng, n_samples as usize, x0);
-    &samples
-}
