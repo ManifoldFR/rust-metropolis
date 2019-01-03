@@ -1,11 +1,7 @@
-#include <cstdint>
-#include <cstdlib>
+#include <stdint.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
-template<typename T>
-struct Vec;
+typedef struct Vec_f64 Vec_f64;
 
-extern "C" {
-
-Vec<double> sample_mh_randomwalk(uint32_t n_samples);
-
-} // extern "C"
+const Vec_f64 *sample_mh_randomwalk(uint32_t n_samples);

@@ -5,3 +5,5 @@ examples/*.json
 /target
 **/*.rs.bk
 Cargo.lock
+
+*.exe
