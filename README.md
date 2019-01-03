@@ -9,6 +9,6 @@ Just clone the depo or add the Git URL to your `Cargo.toml` and you're good to g
 ## FFI test
 
 ```bash
-cbindgen -o bindings.h -l C
-gcc test.c -I . -L target/debug -lmetropolis
+cbindgen -o bindings.h  # generate C++ bindings
+gcc test.cpp -I . -L target/debug -lmetropolis -o test
 ```

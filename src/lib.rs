@@ -32,7 +32,7 @@ impl<F, G> MHSampler<F, G> where
     G: ConditionalDistribution+ConditionalPDF
 {
     /// q: reference conditional density function kernel
-    pub fn new(p: F, kernel: G) -> MHSampler<F, G> {
+    pub fn new(p: F, kernel: G) -> Self {
         MHSampler {
             p,
             kernel

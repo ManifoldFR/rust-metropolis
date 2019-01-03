@@ -9,7 +9,7 @@ pub struct RandomWalk(Normal);
 
 impl RandomWalk {
     /// Initialize the random walk kernel with the standard normal distribution.
-    pub fn new() -> RandomWalk {
+    pub fn new() -> Self {
         RandomWalk(Normal::new(0., 1.0))
     }
 }

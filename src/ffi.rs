@@ -13,5 +13,6 @@ pub extern fn sample_mh_randomwalk(n_samples: u32) -> *mut f64 {
     let ref mut rng = rand::thread_rng();
     let mut samples = mhe.sample(rng, n_samples as usize, x0);
     println!("Rust says: number of samples is {}", samples.len());
+    println!("{:?}", samples);
     samples.as_mut_ptr()
 }
