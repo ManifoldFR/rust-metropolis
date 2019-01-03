@@ -49,7 +49,7 @@ impl<F, G> MHSampler<F, G> where
         let ref kernel = self.kernel;
         let p = &self.p;
 
-        for t in 1..n {
+        for _t in 1..n {
             candidate = kernel.csample(rng, y);
             acceptance = p(candidate)* kernel.cpdf(y, candidate) /
                 (p(y)*kernel.cpdf(candidate, y));

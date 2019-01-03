@@ -1,8 +1,11 @@
 [package]
 name = "metropolis"
 version = "0.1.0"
-authors = ["ManifoldFR <wilson.jallet@gmail.com>"]
+authors = ["ManifoldFR <manifoldfr@outlook.com>"]
 edition = "2018"
+
+[lib]
+crate-type = ["rlib", "cdylib"]
 
 [dependencies]
 rand = "0.6.1"
