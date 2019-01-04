@@ -10,5 +10,5 @@ Just clone the depo or add the Git URL to your `Cargo.toml` and you're good to g
 
 ```bash
 cbindgen -o bindings.h  # generate C++ bindings
-gcc test.cpp -I . -L target/debug -lmetropolis -o test
+g++ test.cpp -I . -L target/debug -lmetropolis -o test --std=c++11
 ```
