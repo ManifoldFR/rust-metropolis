@@ -27,17 +27,16 @@ pub trait ConditionalPDF {
 
 /// Metropolis-Hastings sampler.
 pub struct MHSampler<'a, F, G>
-where
-    F: Fn(f64) -> f64,
-    G: ConditionalDistribution+ConditionalPDF
+    where F: Fn(f64) -> f64,
+          G: ConditionalDistribution+ConditionalPDF
 {
     p: F,
     kernel: &'a G
 }
 
-impl<'a, F, G> MHSampler<'a, F, G> where
-    F: Fn(f64) -> f64,
-    G: ConditionalDistribution+ConditionalPDF
+impl<'a, F, G> MHSampler<'a, F, G>
+    where F: Fn(f64) -> f64,
+          G: ConditionalDistribution+ConditionalPDF
 {
     /// q: reference conditional density function kernel
     pub fn new(p: F, kernel: &'a G) -> Self {
