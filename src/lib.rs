@@ -5,37 +5,44 @@ use rand::Rng;
 pub mod ffi;
 pub mod random_walk;
 
+/// The `ConditionalDistribution` trait provides an interface for sampling
+/// elements conditionally to priors.
+pub trait ConditionalDistribution {
+    /// Draw a sample conditionally to the previous state `y`.
+    fn conditional_sample<R: Rng + ?Sized>(&self, rng: &mut R, y: f64) -> f64;
+}
+
+/// The `ConditionalPDF` trait provides an interface for conditional
+/// probability densities.
+pub trait ConditionalPDF {
+    /// Returns the conditional probability density function calculated at `x`.
+    fn conditional_pdf(&self, x: f64, y: f64) -> f64;
+
+    /// Calculates the log-probability density at point `x`.
+    fn ln_conditional_pdf(&self, x: f64, y: f64) -> f64 {
+        self.conditional_pdf(x, y).ln()
+    }
+}
+
+
 /// Metropolis-Hastings sampler.
-pub struct MHSampler<F, G>
+pub struct MHSampler<'a, F, G>
 where
     F: Fn(f64) -> f64,
     G: ConditionalDistribution+ConditionalPDF
 {
     p: F,
-    kernel: G
+    kernel: &'a G
 }
 
-/// Any `structs` that should be used as Markov transition kernels by the M-H algorithm
-/// should implement this trait.
-pub trait ConditionalDistribution {
-    /// Draw a sample conditionally to the previous state `y`.
-    fn csample<R:Rng+?Sized>(&self, rng: &mut R, y: f64) -> f64;
-}
-
-pub trait ConditionalPDF {
-    fn cpdf(&self, x: f64, y: f64) -> f64;
-}
-
-
-impl<F, G> MHSampler<F, G> where
+impl<'a, F, G> MHSampler<'a, F, G> where
     F: Fn(f64) -> f64,
     G: ConditionalDistribution+ConditionalPDF
 {
     /// q: reference conditional density function kernel
-    pub fn new(p: F, kernel: G) -> Self {
+    pub fn new(p: F, kernel: &'a G) -> Self {
         MHSampler {
-            p,
-            kernel
+            p, kernel
         }
     }
 
@@ -51,9 +58,9 @@ impl<F, G> MHSampler<F, G> where
         let p = &self.p;
 
         for _t in 1..n {
-            candidate = kernel.csample(rng, y);
-            acceptance = p(candidate)* kernel.cpdf(y, candidate) /
-                (p(y)*kernel.cpdf(candidate, y));
+            candidate = kernel.conditional_sample(rng, y);
+            acceptance = p(candidate)* kernel.conditional_pdf(y, candidate) /
+                (p(y)*kernel.conditional_pdf(candidate, y));
             acceptance = acceptance.min(1.);
             let u: f64 = rng.gen();
             if u <= acceptance {

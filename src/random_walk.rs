@@ -15,14 +15,14 @@ impl RandomWalk {
 }
 
 impl ConditionalPDF for RandomWalk {
-    fn cpdf(&self, x: f64, y: f64) -> f64 {
+    fn conditional_pdf(&self, x: f64, y: f64) -> f64 {
         (-0.5 * (x - y).powi(2)).exp()/(2.*PI).sqrt()
     }
 }
 
 impl ConditionalDistribution for RandomWalk {
-    fn csample<R:Rng+?Sized>(&self, rng: &mut R, y: f64) -> f64 {
-        // property of the normal distribution provides easy method to sample
+    fn conditional_sample<R: Rng + ?Sized>(&self, rng: &mut R, y: f64) -> f64 {
+        // property of the normal distribution for easy sampling
         y + self.0.sample(rng)
     }
 }
