@@ -8,7 +8,8 @@ Just clone the depo or add the Git URL to your `Cargo.toml` and you're good to g
 
 ## FFI test
 
+The [build script](./build.rs) already generates a C++ bindings header.
+
 ```bash
-cbindgen -o bindings.h  # generate C++ bindings
-g++ test.cpp -I . -L target/debug -lmetropolis -o test --std=c++11
+g++ cffi/test.cpp -I . -L target/debug -lmetropolis -o test --std=c++11
 ```

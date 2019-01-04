@@ -8,9 +8,13 @@ edition = "2018"
 crate-type = ["rlib", "cdylib"]
 
 [dependencies]
-rand = "0.6.1"
 serde = "1.0.84"
 serde_json = "1.0.34"
+statrs = "0.10.0"
+rand = "0.6.3"
+
+[patch.crates-io]
+statrs = { git = "https://github.com/ManifoldFR/statrs" }
 
 [build-dependencies]
 cbindgen = "0.6.7"

@@ -1,8 +1,9 @@
 //! Normal distribution random walk kernel.
-use rand::distributions::{Distribution, Normal};
-use rand::Rng;
-use std::f64::consts::PI;
+use statrs::distribution::{Normal, Continuous};
 use super::{ConditionalDistribution, ConditionalPDF};
+
+use rand::Rng;
+use rand::distributions::Distribution;
 
 /// Random walk Markov transition kernel.
 pub struct RandomWalk(Normal);
@@ -10,13 +11,17 @@ pub struct RandomWalk(Normal);
 impl RandomWalk {
     /// Initialize the random walk kernel with the standard normal distribution.
     pub fn new() -> Self {
-        RandomWalk(Normal::new(0., 1.0))
+        RandomWalk(Normal::new(0., 1.0).unwrap())
+    }
+
+    pub fn from_normal(n: Normal) -> Self {
+        RandomWalk(n)
     }
 }
 
 impl ConditionalPDF for RandomWalk {
     fn conditional_pdf(&self, x: f64, y: f64) -> f64 {
-        (-0.5 * (x - y).powi(2)).exp()/(2.*PI).sqrt()
+        self.0.pdf(x-y)
     }
 }
 
