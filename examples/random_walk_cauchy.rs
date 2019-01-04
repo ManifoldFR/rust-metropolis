@@ -5,10 +5,10 @@ use metropolis::random_walk::RandomWalk;
 fn main() {
     let q = RandomWalk::new();
     let p = |x: f64| {
-        (-x.abs()).exp()
+        1./(1. + (x+1.5)*(x+1.5))
     }; // Laplace distribution
     let n_samples = 10000;
-    let x0= 0.5;
+    let x0 = 0.5;
     let mhe = MHSampler::new(p, &q);
     let ref mut rng = rand::thread_rng();
     let samples = mhe.sample(rng, n_samples, x0);
