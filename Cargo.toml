@@ -14,7 +14,7 @@ statrs = "0.10.0"
 rand = "0.6.3"
 
 [patch.crates-io]
-statrs = { git = "https://github.com/ManifoldFR/statrs" }
+statrs = { git = "https://github.com/boxtown/statrs" }
 
 [build-dependencies]
 cbindgen = "0.6.7"
