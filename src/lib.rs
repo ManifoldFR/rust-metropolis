@@ -24,30 +24,29 @@ pub trait ConditionalPDF {
     }
 }
 
-
 /// Metropolis-Hastings sampler.
 pub struct MHSampler<'a, F, G>
-    where F: Fn(f64) -> f64,
-          G: ConditionalDistribution+ConditionalPDF
+where
+    F: Fn(f64) -> f64,
+    G: ConditionalDistribution + ConditionalPDF,
 {
     p: F,
-    kernel: &'a G
+    kernel: &'a G,
 }
 
 impl<'a, F, G> MHSampler<'a, F, G>
-    where F: Fn(f64) -> f64,
-          G: ConditionalDistribution+ConditionalPDF
+where
+    F: Fn(f64) -> f64,
+    G: ConditionalDistribution + ConditionalPDF,
 {
     /// q: reference conditional density function kernel
     pub fn new(p: F, kernel: &'a G) -> Self {
-        MHSampler {
-            p, kernel
-        }
+        MHSampler { p, kernel }
     }
 
     /// Sample `n` samples of the distribution you want, starting from
     /// value `x0`.
-    pub fn sample<R: Rng+?Sized>(&self, rng: &mut R, n: usize, x0: f64) -> Vec<f64> {
+    pub fn sample<R: Rng + ?Sized>(&self, rng: &mut R, n: usize, x0: f64) -> Vec<f64> {
         let mut res = Vec::with_capacity(n); // capacity O(n)
         res.push(x0);
         let mut candidate: f64;
@@ -58,8 +57,8 @@ impl<'a, F, G> MHSampler<'a, F, G>
 
         for _t in 1..n {
             candidate = kernel.conditional_sample(rng, y);
-            acceptance = p(candidate)* kernel.conditional_pdf(y, candidate) /
-                (p(y)*kernel.conditional_pdf(candidate, y));
+            acceptance = p(candidate) * kernel.conditional_pdf(y, candidate)
+                / (p(y) * kernel.conditional_pdf(candidate, y));
             acceptance = acceptance.min(1.);
             let u: f64 = rng.gen();
             if u <= acceptance {

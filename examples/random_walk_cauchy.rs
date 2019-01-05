@@ -1,12 +1,9 @@
-use metropolis::*;
 use metropolis::random_walk::RandomWalk;
-
+use metropolis::*;
 
 fn main() {
     let q = RandomWalk::new();
-    let p = |x: f64| {
-        1./(1. + (x+1.5)*(x+1.5))
-    }; // Laplace distribution
+    let p = |x: f64| 1. / (1. + (x + 1.5) * (x + 1.5)); // Laplace distribution
     let n_samples = 10000;
     let x0 = 0.5;
     let mhe = MHSampler::new(p, &q);
