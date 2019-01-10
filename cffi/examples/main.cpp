@@ -1,10 +1,14 @@
-#include "bindings.hpp"
+#include <bindings.hpp>
 #include <iostream>
 #include <vector>
 using namespace std;
 
 int main(int argc, char* argv[]) {
-    int n_samples = 6;
+    if (argc == 1) {
+        cout << "Not enough arguments." << endl;
+        return 1;
+    }
+    int n_samples = stoi(argv[1]);
     double x0 = 0.5;
     vector<double> samples(n_samples);
     sampleMHrandomWalk(n_samples, x0, &samples[0]);

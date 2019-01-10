@@ -15,8 +15,6 @@ pub extern "C" fn sampleMHrandomWalk(n_samples: u32, x0: f64, out_buf: *mut f64)
     unsafe {
         ::std::slice::from_raw_parts_mut(out_buf, n_samples as usize).copy_from_slice(&samples);
     }
-    println!("Rust says: number of samples is {}", samples.len());
-    println!("{:?}", samples);
 }
 
 /// Generates a random walk Markov chain.

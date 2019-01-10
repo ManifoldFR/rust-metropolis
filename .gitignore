@@ -1,8 +1,16 @@
 .idea/
+.vscode/
 examples/*.json
+
+# Compiled
+*.o
+*.dll
+*.so
+*.pyd
+*.exe
+
+cffi/examples/main
 
 # Cargo output
 /target
 **/*.rs.bk
-
-*.exe
