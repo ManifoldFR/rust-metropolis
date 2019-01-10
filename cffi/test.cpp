@@ -16,6 +16,6 @@ int main(int argc, char* argv[]) {
         }
         cout << samples[i] << "\t";
     }
-    cout << "]";
+    cout << "]" << endl;
     return 0;
 }
