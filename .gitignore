@@ -9,8 +9,10 @@ examples/*.json
 *.pyd
 *.exe
 
-cffi/examples/main
+examples/ffi/main
 
 # Cargo output
 /target
 **/*.rs.bk
+/venv
+pylib/*.egg_info

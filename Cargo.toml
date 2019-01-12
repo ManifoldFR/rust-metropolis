@@ -18,3 +18,8 @@ statrs = { git = "https://github.com/boxtown/statrs" }
 
 [build-dependencies]
 cbindgen = "0.6.8"
+
+[workspace]
+members = [
+    "pylib"
+]

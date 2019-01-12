@@ -1,0 +1,16 @@
+[package]
+name = "metropolis-pylib"
+version = "0.1.0"
+authors = ["ManifoldFR <manifoldfr@outlook.com>"]
+edition = "2018"
+
+[lib]
+name = "metropolispy"
+crate-type = ["cdylib"]
+
+[dependencies]
+metropolis = { path = "../"}
+
+[dependencies.pyo3]
+version = "0.5.3"
+features = ["extension-module"]

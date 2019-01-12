@@ -1,10 +1,10 @@
 CC = g++
 
-CFLAGS = -fPIC -g --std=c++11 -Wall
+CFLAGS = -g --std=c++11 -Wall
 ROOT_DIR = ../..
 
 RM = rm
-INCLUDES = -I../
+INCLUDES = -I../../cffi
 LIB_INCLUDE = -Wl,-rpath,$(ROOT_DIR)/target/debug/ -L$(ROOT_DIR)/target/debug/
 LIBRARIES = -lmetropolis
 
