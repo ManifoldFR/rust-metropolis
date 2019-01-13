@@ -5,11 +5,12 @@ authors = ["ManifoldFR <manifoldfr@outlook.com>"]
 edition = "2018"
 
 [lib]
+name = "metropolis"
 crate-type = ["rlib", "cdylib"]
 
 [dependencies]
 serde = "1.0.84"
-serde_json = "1.0.34"
+serde_json = "1.0.35"
 statrs = "0.10.0"
 rand = "0.6.4"
 

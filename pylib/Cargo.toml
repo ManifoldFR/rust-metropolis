@@ -10,7 +10,8 @@ crate-type = ["cdylib"]
 
 [dependencies]
 metropolis = { path = "../"}
+rand = "0.6.4"
 
 [dependencies.pyo3]
-version = "0.5.3"
+version = "0.6.0-alpha.1"
 features = ["extension-module"]
