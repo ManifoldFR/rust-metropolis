@@ -1,4 +1,4 @@
-//! Normal distribution random walk kernel.
+//! Normal distribution random walk kernel, on the real line.
 use super::{ConditionalDistribution, ConditionalPDF};
 use statrs::distribution::{Continuous, Normal};
 
@@ -19,13 +19,13 @@ impl RandomWalk {
     }
 }
 
-impl ConditionalPDF for RandomWalk {
+impl ConditionalPDF<f64> for RandomWalk {
     fn conditional_pdf(&self, x: f64, y: f64) -> f64 {
         self.0.pdf(x - y)
     }
 }
 
-impl ConditionalDistribution for RandomWalk {
+impl ConditionalDistribution<f64> for RandomWalk {
     fn conditional_sample<R: Rng + ?Sized>(&self, rng: &mut R, y: f64) -> f64 {
         // property of the normal distribution for easy sampling
         y + self.0.sample(rng)
