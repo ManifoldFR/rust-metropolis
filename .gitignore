@@ -15,4 +15,5 @@ examples/ffi/main
 /target
 **/*.rs.bk
 /venv
-pylib/*.egg_info
+/pylib/*.egg-info/
+**/*/__pycache__
