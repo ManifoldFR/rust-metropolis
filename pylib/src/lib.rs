@@ -14,7 +14,7 @@ fn random_walk(py: Python, m: &PyModule) -> PyResult<()> {
         let cauchy_x0 = 1.5;
         let p = |x: f64| 1. / (1. + (x - cauchy_x0).powi(2));
 
-        let mhs = metropolis::MHSampler::new(p, &q);
+        let mhs = metropolis::MHSampler::new(&p, &q);
         let ref mut rng = rand::thread_rng();
         Ok(mhs.sample(rng, n as usize, x0))
     }

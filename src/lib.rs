@@ -25,25 +25,23 @@ pub trait ConditionalPDF<T> {
 }
 
 /// Metropolis-Hastings sampler.
-pub struct MHSampler<'a, F, G, T>
+pub struct MHSampler<'a, G, T>
 where
-    F: Fn(T) -> f64,
     G: ConditionalDistribution<T> + ConditionalPDF<T>,
-    T: Clone
+    T: Copy,
 {
-    p: F,
+    p: &'a Fn(T) -> f64,
     kernel: &'a G,
 }
 
-impl<'a, F, G, T> MHSampler<'a, F, G, T>
+impl<'a, G, T> MHSampler<'a, G, T>
 where
-    F: Fn(T) -> f64,
     G: ConditionalDistribution<T> + ConditionalPDF<T>,
-    T: Clone
+    T: Copy,
 {
     /// p: target probability distribution
     /// q: reference conditional density function kernel
-    pub fn new(p: F, kernel: &'a G) -> Self {
+    pub fn new(p: &'a Fn(T) -> f64, kernel: &'a G) -> Self {
         MHSampler { p, kernel }
     }
 
@@ -55,8 +53,8 @@ where
         let mut candidate: T;
         let mut acceptance: f64; // acceptance
         let mut y = x0.clone();
-        let ref kernel = *self.kernel;
-        let p = &self.p;
+        let ref kernel = self.kernel;
+        let p = self.p;
 
         for _t in 1..n {
             candidate = kernel.conditional_sample(rng, y);
