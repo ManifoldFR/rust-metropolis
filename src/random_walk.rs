@@ -5,6 +5,7 @@ use statrs::distribution::{Continuous, Normal};
 use rand::distributions::Distribution;
 use rand::Rng;
 
+#[cfg(feature = "array")]
 pub mod multidimensional;
 
 /// Random walk Markov transition kernel.
