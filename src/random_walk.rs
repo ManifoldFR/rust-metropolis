@@ -5,6 +5,8 @@ use statrs::distribution::{Continuous, Normal};
 use rand::distributions::Distribution;
 use rand::Rng;
 
+pub mod multidimensional;
+
 /// Random walk Markov transition kernel.
 pub struct RandomWalk(Normal);
 

@@ -25,24 +25,28 @@ pub trait ConditionalPDF<T> {
 }
 
 /// Metropolis-Hastings sampler.
-pub struct MHSampler<'a, G, T>
+pub struct MHSampler<'a, T, G>
 where
-    G: ConditionalDistribution<T> + ConditionalPDF<T>,
     T: Copy,
+    G: ConditionalDistribution<T> + ConditionalPDF<T>
 {
-    p: &'a Fn(T) -> f64,
+    /// Target probability distribution.
+    target: &'a Fn(T) -> f64,
+    /// Conditional probability distribution kernel for the Markov chain.
     kernel: &'a G,
 }
 
-impl<'a, G, T> MHSampler<'a, G, T>
+impl<'a, T, G> MHSampler<'a, T, G>
 where
-    G: ConditionalDistribution<T> + ConditionalPDF<T>,
     T: Copy,
+    G: ConditionalDistribution<T> + ConditionalPDF<T>
 {
-    /// p: target probability distribution
-    /// q: reference conditional density function kernel
-    pub fn new(p: &'a Fn(T) -> f64, kernel: &'a G) -> Self {
-        MHSampler { p, kernel }
+    /// Returns a sampler targeting the given distribution using the given transition kernel.
+    ///
+    /// * `p` - Target probability distribution
+    /// * `kernel` - Markov Chain transition kernel
+    pub fn new(p: &'a impl Fn(T) -> f64, kernel: &'a G) -> Self {
+        MHSampler { target: p, kernel }
     }
 
     /// Sample `n` samples of the distribution you want, starting from
@@ -54,7 +58,7 @@ where
         let mut acceptance: f64; // acceptance
         let mut y = x0.clone();
         let ref kernel = self.kernel;
-        let p = self.p;
+        let p = self.target;
 
         for _t in 1..n {
             candidate = kernel.conditional_sample(rng, y);
