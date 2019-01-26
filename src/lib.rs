@@ -24,11 +24,17 @@ pub trait ConditionalPDF<T> {
     }
 }
 
+/// Markov chain transition kernel.
+pub trait TransitionKernel<T>: ConditionalDistribution<T> + ConditionalPDF<T> {}
+
+impl<T, K> TransitionKernel<T> for K
+where K: ConditionalDistribution<T> + ConditionalPDF<T> {}
+
 /// Metropolis-Hastings sampler.
 pub struct MHSampler<'a, T, G>
 where
     T: Copy,
-    G: ConditionalDistribution<T> + ConditionalPDF<T>
+    G: TransitionKernel<T>
 {
     /// Target probability distribution.
     target: &'a Fn(T) -> f64,
@@ -39,7 +45,7 @@ where
 impl<'a, T, G> MHSampler<'a, T, G>
 where
     T: Copy,
-    G: ConditionalDistribution<T> + ConditionalPDF<T>
+    G: TransitionKernel<T>
 {
     /// Returns a sampler targeting the given distribution using the given transition kernel.
     ///

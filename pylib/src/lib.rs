@@ -27,6 +27,13 @@ impl MHSampler {
     }
 }
 
+#[pymodule]
+fn metropolis(_py: Python, m: &PyModule) -> PyResult<()> {
+    m.add_class::<MHSampler>();
+    
+    Ok(())
+}
+
 
 #[pymodule]
 fn random_walk(_py: Python, m: &PyModule) -> PyResult<()> {
