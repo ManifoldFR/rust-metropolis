@@ -23,7 +23,7 @@ ndarray-rand = { version = "0.9.0", optional = true }
 statrs = { git = "https://github.com/boxtown/statrs" }
 
 [build-dependencies]
-cbindgen = "0.6.8"
+cbindgen = "0.7.1"
 
 [workspace]
 members = [

@@ -8,7 +8,7 @@ Just clone the depo or add the Git URL to your `Cargo.toml` and you're good to g
 
 ## C FFI
 
-The [build script](./build.rs) generates a C++ bindings header.
+The [build script](./build.rs) generates a C++ header that can be used to integrate this library within C++ code.
 
 ## Python API
 
