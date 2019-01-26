@@ -1,5 +1,5 @@
 //! Normal distribution random walk kernel, on the real line.
-use super::{ConditionalDistribution, ConditionalPDF};
+use super::{ConditionalDistribution, ConditionalPDF, TransitionKernel};
 use statrs::distribution::{Continuous, Normal};
 
 use rand::distributions::Distribution;
@@ -32,5 +32,11 @@ impl ConditionalDistribution<f64> for RandomWalk {
     fn conditional_sample<R: Rng + ?Sized>(&self, rng: &mut R, y: f64) -> f64 {
         // property of the normal distribution for easy sampling
         y + self.0.sample(rng)
+    }
+}
+
+impl TransitionKernel<f64> for RandomWalk {
+    fn is_symmetrical(&self) -> bool {
+        true
     }
 }

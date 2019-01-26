@@ -1,3 +1,4 @@
+#![feature(specialization)]
 //! Implementation of the Metropolis-Hastings MCMC (Monte Carlo Markov Chain) algorithm.
 use rand;
 use rand::Rng;
@@ -25,10 +26,16 @@ pub trait ConditionalPDF<T> {
 }
 
 /// Markov chain transition kernel.
-pub trait TransitionKernel<T>: ConditionalDistribution<T> + ConditionalPDF<T> {}
+pub trait TransitionKernel<T>: ConditionalDistribution<T> + ConditionalPDF<T> {
+    fn is_symmetrical(&self) -> bool;
+}
 
-impl<T, K> TransitionKernel<T> for K
-where K: ConditionalDistribution<T> + ConditionalPDF<T> {}
+default impl<T, K> TransitionKernel<T> for K
+where K: ConditionalDistribution<T> + ConditionalPDF<T> {
+    default fn is_symmetrical(&self) -> bool {
+        false
+    }
+}
 
 /// Metropolis-Hastings sampler.
 pub struct MHSampler<'a, T, G>
@@ -55,6 +62,18 @@ where
         MHSampler { target: p, kernel }
     }
 
+    /// Compute the acceptance ratio for the proposal state y
+    /// with previous state x.
+    fn acceptance(&self, x: T, y: T) -> f64 {
+        let p = self.target;
+        let mut r = p(y) / p(x);
+        if !(self.kernel.is_symmetrical()) {
+            let ref kernel = self.kernel;
+            r *= kernel.conditional_pdf(x, y) / kernel.conditional_pdf(y, x);
+        }
+        r.min(1.0)
+    }
+
     /// Sample `n` samples of the distribution you want, starting from
     /// value `x0`.
     pub fn sample<R: Rng + ?Sized>(&self, rng: &mut R, n: usize, x0: T) -> Vec<T> {
@@ -62,20 +81,17 @@ where
         res.push(x0);
         let mut candidate: T;
         let mut acceptance: f64; // acceptance
-        let mut y = x0.clone();
+        let mut x = x0.clone();
         let ref kernel = self.kernel;
-        let p = self.target;
 
         for _t in 1..n {
-            candidate = kernel.conditional_sample(rng, y);
-            acceptance = p(candidate) * kernel.conditional_pdf(y, candidate)
-                / (p(y) * kernel.conditional_pdf(candidate, y));
-            acceptance = acceptance.min(1.);
+            candidate = kernel.conditional_sample(rng, x);
+            acceptance = self.acceptance(x, candidate);
             let u: f64 = rng.gen();
             if u <= acceptance {
-                y = candidate;
+                x = candidate;
             }
-            res.push(y);
+            res.push(x);
         }
 
         res
