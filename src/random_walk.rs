@@ -29,9 +29,9 @@ impl ConditionalPDF<f64> for RandomWalk {
 }
 
 impl ConditionalDistribution<f64> for RandomWalk {
-    fn conditional_sample<R: Rng + ?Sized>(&self, rng: &mut R, y: f64) -> f64 {
+    fn conditional_sample<R: Rng + ?Sized>(&self, rng: &mut R, x: f64) -> f64 {
         // property of the normal distribution for easy sampling
-        y + self.0.sample(rng)
+        x + self.0.sample(rng)
     }
 }
 

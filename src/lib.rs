@@ -31,7 +31,9 @@ pub trait TransitionKernel<T>: ConditionalDistribution<T> + ConditionalPDF<T> {
 }
 
 default impl<T, K> TransitionKernel<T> for K
-where K: ConditionalDistribution<T> + ConditionalPDF<T> {
+where
+    K: ConditionalDistribution<T> + ConditionalPDF<T>,
+{
     default fn is_symmetrical(&self) -> bool {
         false
     }
@@ -41,7 +43,7 @@ where K: ConditionalDistribution<T> + ConditionalPDF<T> {
 pub struct MHSampler<'a, T, G>
 where
     T: Copy,
-    G: TransitionKernel<T>
+    G: TransitionKernel<T>,
 {
     /// Target probability distribution.
     target: &'a Fn(T) -> f64,
@@ -52,7 +54,7 @@ where
 impl<'a, T, G> MHSampler<'a, T, G>
 where
     T: Copy,
-    G: TransitionKernel<T>
+    G: TransitionKernel<T>,
 {
     /// Returns a sampler targeting the given distribution using the given transition kernel.
     ///
