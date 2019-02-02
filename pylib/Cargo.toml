@@ -3,14 +3,19 @@ name = "metropolis-pylib"
 version = "0.1.0"
 authors = ["ManifoldFR <manifoldfr@outlook.com>"]
 edition = "2018"
+publish = false
 
 [lib]
 name = "metropolispy"
 crate-type = ["cdylib"]
 
+[features]
+array = ["numpy", "metropolis/array"]
+
 [dependencies]
 metropolis = { path = "../"}
-rand = "0.6.4"
+rand = "0.6.5"
+numpy = { version = "0.4.1", optional = true }
 
 [dependencies.pyo3]
 version = "0.6.0-alpha.1"

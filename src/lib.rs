@@ -25,7 +25,8 @@ pub trait ConditionalPDF<T> {
     }
 }
 
-/// Markov chain transition kernel.
+/// Trait for MCMC transition kernels, fusing the conditional
+/// distribution and density traits.
 pub trait TransitionKernel<T>: ConditionalDistribution<T> + ConditionalPDF<T> {
     fn is_symmetrical(&self) -> bool;
 }
@@ -40,6 +41,8 @@ where
 }
 
 /// Metropolis-Hastings sampler.
+/// Wraps a `TransitionKernel` object and targets a specified probability
+/// distribution.
 pub struct MHSampler<'a, T, G>
 where
     T: Copy,

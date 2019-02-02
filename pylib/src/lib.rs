@@ -39,6 +39,8 @@ fn metropolis(_py: Python, m: &PyModule) -> PyResult<()> {
 fn random_walk(_py: Python, m: &PyModule) -> PyResult<()> {
 
     #[pyfn(m, "sample_random_walk")]
+    /// sample_rw(n, init_state, p)
+    /// --
     /// Draw samples from a target distribution using the Metropolis-Hastings algorithm.
     ///
     /// Args:

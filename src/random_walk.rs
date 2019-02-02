@@ -1,4 +1,4 @@
-//! Normal distribution random walk kernel, on the real line.
+//! Random walk kernel.
 use super::{ConditionalDistribution, ConditionalPDF, TransitionKernel};
 use statrs::distribution::{Continuous, Normal};
 
@@ -6,6 +6,7 @@ use rand::distributions::Distribution;
 use rand::Rng;
 
 #[cfg(feature = "array")]
+/// Multivariate random walk kernel.
 pub mod multidimensional;
 
 /// Random walk Markov transition kernel.
