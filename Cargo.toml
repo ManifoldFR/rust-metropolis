@@ -1,6 +1,6 @@
 [package]
 name = "metropolis"
-version = "0.2.1"
+version = "0.2.3"
 authors = ["ManifoldFR <manifoldfr@outlook.com>"]
 edition = "2018"
 

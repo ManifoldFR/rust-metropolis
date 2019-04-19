@@ -193,7 +193,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "metropolis"
-version = "0.2.1"
+version = "0.2.3"
 dependencies = [
  "cbindgen 0.8.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "ndarray 0.12.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -208,7 +208,7 @@ dependencies = [
 name = "metropolis-pylib"
 version = "0.1.0"
 dependencies = [
- "metropolis 0.2.1",
+ "metropolis 0.2.3",
  "numpy 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "pyo3 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "rand 0.6.5 (registry+https://github.com/rust-lang/crates.io-index)",
