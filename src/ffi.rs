@@ -29,7 +29,8 @@ pub extern "C" fn randomWalk(n_samples: u32, x0: f64, sigma: f64, out_buf: *mut 
     let mut res = vec![x0];
     for i in 1..n_samples as usize {
         y = res[i - 1];
-        res.push(q.conditional_sample(rng, y));
+        let s = q.conditional_sample(rng, y);
+        res.push(s);
     }
     unsafe {
         ::std::slice::from_raw_parts_mut(out_buf, n_samples as usize).copy_from_slice(&res);

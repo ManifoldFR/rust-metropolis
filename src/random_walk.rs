@@ -9,7 +9,7 @@ use rand::Rng;
 /// Multivariate random walk kernel.
 pub mod multidimensional;
 
-/// Random walk Markov transition kernel.
+/// Random walk Markov transition kernel on the real line.
 pub struct RandomWalk(Normal);
 
 impl RandomWalk {
@@ -29,14 +29,14 @@ impl ConditionalPDF<f64> for RandomWalk {
     }
 }
 
-impl ConditionalDistribution<f64> for RandomWalk {
+impl ConditionalDistribution<f64, f64> for RandomWalk {
     fn conditional_sample<R: Rng + ?Sized>(&self, rng: &mut R, x: f64) -> f64 {
         // property of the normal distribution for easy sampling
         x + self.0.sample(rng)
     }
 }
 
-impl TransitionKernel<f64> for RandomWalk {
+impl TransitionKernel<f64, f64> for RandomWalk {
     fn is_symmetrical(&self) -> bool {
         true
     }

@@ -2,6 +2,8 @@
 #include <cstdint>
 #include <cstdlib>
 
+namespace ffi {
+
 extern "C" {
 
 /// Generates a random walk Markov chain.
@@ -11,3 +13,5 @@ void randomWalk(uint32_t n_samples, double x0, double sigma, double *out_buf);
 void sampleMHrandomWalk(uint32_t n_samples, double x0, double *out_buf);
 
 } // extern "C"
+
+} // namespace ffi
